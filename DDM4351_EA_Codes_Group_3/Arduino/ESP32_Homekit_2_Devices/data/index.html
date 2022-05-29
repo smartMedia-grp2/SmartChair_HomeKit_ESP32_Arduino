@@ -1,0 +1,261 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="highcharts.js"></script>
+  <style>
+    body {
+      min-width: 310px;
+      max-width: 800px;
+      height: 400px;
+      margin: 0 auto;
+    }
+
+    h2 {
+      font-family: Arial;
+      font-size: 2.5rem;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body style="background-color:black;">
+  <h2 style="color:white;">Smart Chair, DDM4351 EA Group 3</h2>
+  <p>
+  <div id="chart-tempareture" class="container"></div>
+  </p>
+  <p>
+    <div id="chart-humidity" class="container"></div>
+  </p>
+  <p>
+    <div id="chart-motion" class="container"></div>
+  </p>
+  <p>
+  <div id="chart-obstacle" class="container"></div>
+  </p>
+</body>
+
+<script>
+  var chart_nA = new Highcharts.Chart({
+    chart: {
+      renderTo: 'chart-tempareture'
+    },
+    title: {
+      text: 'Temperature'
+    },
+    series: [{
+      showInLegend: false,
+      data: []
+    }],
+    plotOptions: {
+      line: {
+        animation: false,
+        dataLabels: {
+          enabled: true
+        }
+      },
+      series: {
+        color: '#059e8a'
+      }
+    },
+    xAxis: {
+      type: 'datetime',
+      dateTimeLabelFormats: {
+        second: '%H:%M:%S'
+      }
+    },
+    yAxis: {
+      title: {
+        text: 'Temperature Unit'
+      }
+    },
+    credits: {
+      enabled: false
+    }
+  });
+  setInterval(function () {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        var x = (new Date()).getTime(),
+          nA = parseFloat(this.responseText);
+        //console.log(this.responseText);
+        if (chart_nA.series[0].data.length > 40) {
+          chart_nA.series[0].addPoint([x, nA], true, true, true);
+        } else {
+          chart_nA.series[0].addPoint([x, nA], true, false, true);
+        }
+      }
+    };
+    xhttp.open("GET", "/T", true);
+    xhttp.send();
+  }, 4900);
+
+
+
+  var chart_mA = new Highcharts.Chart({
+    chart: {
+      renderTo: 'chart-humidity'
+    },
+    title: {
+      text: 'Humidity'
+    },
+    series: [{
+      showInLegend: false,
+      data: []
+    }],
+    plotOptions: {
+      line: {
+        animation: false,
+        dataLabels: {
+          enabled: true
+        }
+      }
+    },
+    xAxis: {
+      type: 'datetime',
+      dateTimeLabelFormats: {
+        second: '%H:%M:%S'
+      }
+    },
+    yAxis: {
+      title: {
+        text: 'Humidity Unit'
+      }
+    },
+    credits: {
+      enabled: false
+    }
+  });
+  setInterval(function () {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        var x = (new Date()).getTime(),
+          mA = parseFloat(this.responseText);
+        //console.log(this.responseText);
+        if (chart_mA.series[0].data.length > 40) {
+          chart_mA.series[0].addPoint([x, mA], true, true, true);
+        } else {
+          chart_mA.series[0].addPoint([x, mA], true, false, true);
+        }
+      }
+    };
+    xhttp.open("GET", "/H", true);
+    xhttp.send();
+  }, 4900);
+
+
+
+  var chart_nB = new Highcharts.Chart({
+    chart: {
+      renderTo: 'chart-motion'
+    },
+    title: {
+      text: 'Motion'
+    },
+    series: [{
+      showInLegend: false,
+      data: []
+    }],
+    plotOptions: {
+      line: {
+        animation: false,
+        dataLabels: {
+          enabled: true
+        }
+      },
+      series: {
+        color: '#059e8a'
+      }
+    },
+    xAxis: {
+      type: 'datetime',
+      dateTimeLabelFormats: {
+        second: '%H:%M:%S'
+      }
+    },
+    yAxis: {
+      title: {
+        text: 'Motion Sensor Activated Times'
+      }
+    },
+    credits: {
+      enabled: false
+    }
+  });
+  setInterval(function () {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        var x = (new Date()).getTime(),
+          nB = parseFloat(this.responseText);
+        //console.log(this.responseText);
+        if (chart_nB.series[0].data.length > 40) {
+          chart_nB.series[0].addPoint([x, nB], true, true, true);
+        } else {
+          chart_nB.series[0].addPoint([x, nB], true, false, true);
+        }
+      }
+    };
+    xhttp.open("GET", "/M", true);
+    xhttp.send();
+  }, 4900);
+
+
+
+  var chart_mB = new Highcharts.Chart({
+    chart: {
+      renderTo: 'chart-obstacle'
+    },
+    title: {
+      text: 'Obstacle'
+    },
+    series: [{
+      showInLegend: false,
+      data: []
+    }],
+    plotOptions: {
+      line: {
+        animation: false,
+        dataLabels: {
+          enabled: true
+        }
+      }
+    },
+    xAxis: {
+      type: 'datetime',
+      dateTimeLabelFormats: {
+        second: '%H:%M:%S'
+      }
+    },
+    yAxis: {
+      title: {
+        text: 'Obstacle Sensor Activated Times'
+      }
+    },
+    credits: {
+      enabled: false
+    }
+  });
+  setInterval(function () {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        var x = (new Date()).getTime(),
+          mB = parseFloat(this.responseText);
+        //console.log(this.responseText);
+        if (chart_mB.series[0].data.length > 40) {
+          chart_mB.series[0].addPoint([x, mB], true, true, true);
+        } else {
+          chart_mB.series[0].addPoint([x, mB], true, false, true);
+        }
+      }
+    };
+    xhttp.open("GET", "/O", true);
+    xhttp.send();
+  }, 4900);
+</script>
+
+</html>
